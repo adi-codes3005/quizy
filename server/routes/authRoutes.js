@@ -8,9 +8,36 @@ const router = express.Router();
 router.post('/register', (req, res) => {
     const { username, email, password } = req.body;
 
-    // Validate password length
-    if (password.length < 6) {
-        return res.status(400).json({ error: 'Password must be at least 6 characters long' });
+    // Check if all fields are provided
+    if (!username || !email || !password) {
+        return res.status(400).json({ error: 'All fields are required' });
+    }
+
+    // Validate email format using regex
+    /* ^[a-zA-Z0-9._%+-]+: Allowed characters before the @ symbol.
+    @[a-zA-Z0-9.-]+: Valid domain name.
+    \.[a-zA-Z]{2,}$: Top-level domain with at least 2 characters (e.g., .com). */
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+        return res.status(400).json({ error: 'Invalid email format' });
+    }
+    
+    // Validate username length (3-30 characters)
+    if (username.length < 3 || username.length > 30) {
+        return res.status(400).json({ error: 'Username must be between 3 and 30 characters long' });
+    }
+
+    // Validate password strength
+    /* (?=.*[a-z]): At least one lowercase letter.
+    (?=.*[A-Z]): At least one uppercase letter.
+    (?=.*\d): At least one digit.
+    (?=.*[@$!%*?&^#_+~]): At least one special character from the allowed set.
+    {8,50}: Length between 8 and 50 characters. */
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&^#_+~])[A-Za-z\d@$!%*?&^#_+~]{8,50}$/;
+    if (!passwordRegex.test(password)) {
+        return res.status(400).json({
+            error: 'Password must be 8-50 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character (e.g., @, $, !, %, *, ?, &).'
+        });
     }
 
     // Check if user already exists
