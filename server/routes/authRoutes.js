@@ -1,3 +1,5 @@
+require('dotenv').config(); // Ensure environment variables are loaded
+console.log('JWT_SECRET in authRoutes.js,at TOP:', process.env.JWT_SECRET);
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -70,6 +72,7 @@ router.post('/login', loginLimiter, async (req, res) => {
             return res.status(400).json({ error: 'Invalid email or password' });
         }
 
+        console.log('JWT_SECRET in authRoutes.js, at bottom:', process.env.JWT_SECRET);
         // Generate JWT
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 

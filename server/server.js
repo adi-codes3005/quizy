@@ -1,8 +1,17 @@
+// const fs = require('fs');
+// console.log('Is .env file present?:', fs.existsSync('./.env'));
+
+const path = require('path');
+ console.log('Current directory:', __dirname);
+// console.log('Resolved .env path:', path.resolve('./.env'));
+
+//require('dotenv').config({ path: '../.env' });
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
+console.log('JWT_SECRET in server.js after loading dotenv:', process.env.JWT_SECRET); // Debugging the secret
 const express = require('express');
 const sequelize = require('./models'); // Import Sequelize instance
 const bodyParser = require('body-parser');
 const cors = require('cors');
-require('dotenv').config();
 
 const app = express();
 app.use(cors());
@@ -14,8 +23,12 @@ app.get('/', (req, res) => {
 });
 
 // Import routes
+console.log('About to load authRoutes.js');
 const authRoutes = require('./routes/authRoutes');
 app.use('/auth', authRoutes);
+
+const protectedRoutes = require('./routes/protectedRoutes');
+app.use('/protected', protectedRoutes); // Mount the protected routes
 
 // Sync models with the database and start the server
 sequelize.sync({ alter: true }) // Adjust the schema without dropping data
