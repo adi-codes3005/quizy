@@ -3,7 +3,8 @@ console.log('JWT_SECRET in authRoutes.js,at TOP:', process.env.JWT_SECRET);
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/user'); // Import Sequelize model
+//const User = require('../models/user'); // Import Sequelize model
+const { User } = require('../models'); // Import User model from index.js
 const rateLimit = require('express-rate-limit'); // Import rate limiter
 const router = express.Router();
 
