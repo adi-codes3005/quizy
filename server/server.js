@@ -28,6 +28,9 @@ app.use('/protected', protectedRoutes); // Mount the protected routes
 const testRoutes = require('./routes/testRoutes');
 app.use('/tests', testRoutes);
 
+const questionRoutes = require('./routes/questionRoutes');
+app.use('/questions', questionRoutes);
+
 // Sync models with the database and start the server
 sequelize.sync({ alter: true }) // Adjust the schema without dropping data
     .then(() => {

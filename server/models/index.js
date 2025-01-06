@@ -9,9 +9,16 @@ const sequelize = new Sequelize({
 
 const User = require('./user')(sequelize, DataTypes); // Load User model
 const Test = require('./test')(sequelize, DataTypes); // Load Test model
+const Question = require('./question')(sequelize, DataTypes); //Relationship for adding questions
+
+Test.hasMany(Question, { foreignKey: 'testId' });
+Question.belongsTo(Test, { foreignKey: 'testId' });
 
 module.exports = {
     sequelize,
     User,
     Test,
+    Question
 };
+
+
