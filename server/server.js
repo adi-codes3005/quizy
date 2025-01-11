@@ -31,8 +31,15 @@ app.use('/tests', testRoutes);
 const questionRoutes = require('./routes/questionRoutes');
 app.use('/questions', questionRoutes);
 
+const testTakingRoutes = require('./routes/testTakingRoutes');
+app.use('/tests', testTakingRoutes);
+
+const resultsRoutes = require('./routes/resultsRoutes');
+app.use('/results', resultsRoutes);
+
 // Sync models with the database and start the server
-sequelize.sync({ alter: true }) // Adjust the schema without dropping data
+//sequelize.sync({ alter: true }) // Adjust the schema without dropping data
+sequelize.sync()
     .then(() => {
         console.log('Database synchronized successfully');
         const PORT = process.env.PORT || 5001;

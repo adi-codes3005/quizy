@@ -14,11 +14,20 @@ const Question = require('./question')(sequelize, DataTypes); //Relationship for
 Test.hasMany(Question, { foreignKey: 'testId' });
 Question.belongsTo(Test, { foreignKey: 'testId' });
 
+const UserTestResult = require('./userTestResult')(sequelize, DataTypes);
+
+User.hasMany(UserTestResult, { foreignKey: 'userId' });
+Test.hasMany(UserTestResult, { foreignKey: 'testId' });
+UserTestResult.belongsTo(User, { foreignKey: 'userId' });
+UserTestResult.belongsTo(Test, { foreignKey: 'testId' });
+
+
 module.exports = {
     sequelize,
     User,
     Test,
-    Question
+    Question,
+    UserTestResult,
 };
 
 
