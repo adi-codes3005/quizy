@@ -40,6 +40,7 @@ app.use('/results', resultsRoutes);
 const profileRoutes = require('./routes/profileRoutes');
 app.use('/profile', profileRoutes);
 
+
 // Sync models with the database and start the server
 //sequelize.sync({ alter: true }) // Adjust the schema without dropping data
 sequelize.sync()
